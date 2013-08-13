@@ -132,14 +132,6 @@ var Game = Class.extend({
     this.renderer.setSize( window.innerWidth, window.innerHeight );
   },
 
-  rotateAroundWorldAxis: function(object, axis, radians) {
-    rotWorldMatrix = new THREE.Matrix4();
-    rotWorldMatrix.makeRotationAxis(axis, radians);
-    rotWorldMatrix.multiply(object.matrix);
-    object.matrix = rotWorldMatrix;
-    object.rotation.setEulerFromRotationMatrix(object.matrix);
-  },
-
   shoot: function() {
     if(this.controls && this.controls.enabled) {
       var b = new Bullet();
