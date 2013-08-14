@@ -42,6 +42,8 @@ THREE.PointerLockControls = function ( camera ) {
     game.mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
   };
 
+
+
   var onKeyDown = function ( event ) {
 
     switch ( event.keyCode ) {
@@ -107,6 +109,19 @@ THREE.PointerLockControls = function ( camera ) {
   document.addEventListener( 'keyup', onKeyUp, false );
 
   this.enabled = false;
+
+  this.getDirection = function() {
+    // assumes the camera itself is not rotated
+    var direction = new THREE.Vector3( 0, 0, -1 );
+    var rotation = new THREE.Euler( 0, 0, 0, "YXZ" );
+
+    return function() {
+      var v = yawObject.position.clone();
+      rotation.set( pitchObject.rotation.x, yawObject.rotation.y, 0 );
+      v.copy( direction ).applyEuler( rotation )
+      return v;
+    }
+  }();
 
   this.getObject = function () {
 

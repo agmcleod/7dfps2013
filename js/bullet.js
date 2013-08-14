@@ -9,14 +9,7 @@ var Bullet = Class.extend({
 
   setupTarget: function() {
     var yaw = game.controls.getObject();
-    var pitch = game.controls.pitchObject;
-    var vector = new THREE.Vector3(
-      yaw.position.x * Math.cos(pitch.rotation.x),
-      yaw.position.y * Math.sin(yaw.rotation.y),
-      0
-    );
-    var dir = vector.sub(yaw.position).normalize();
-    this.ray = new THREE.Raycaster(yaw.position.clone(), dir);
+    this.ray = new THREE.Raycaster(yaw.position.clone(), game.controls.getDirection());
   },
 
   update: function(delta) {
@@ -29,7 +22,7 @@ var Bullet = Class.extend({
 });
 
 Bullet.maxage = 10000;
-Bullet.speed = 0.2; //5
+Bullet.speed = 5;
 Bullet.geometry = new THREE.SphereGeometry(2, 15, 15);
 Bullet.material = new THREE.MeshLambertMaterial(
   {
