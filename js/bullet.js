@@ -9,7 +9,7 @@ var Bullet = Class.extend({
 
   setupTarget: function() {
     var yaw = game.controls.getObject();
-    this.ray = new THREE.Raycaster(yaw.position.clone(), game.controls.getDirection());
+    this.ray = new THREE.Raycaster(yaw.position, game.controls.getDirection());
   },
 
   update: function(delta) {
