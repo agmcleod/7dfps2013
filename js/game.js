@@ -74,6 +74,11 @@ var Game = Class.extend({
       new Enemy(120, 10, 200)
     ];
 
+    this.enemyMeshes = [];
+    for(var i = 0; i < this.enemies.length; i++) {
+      this.enemyMeshes.push(this.enemies[i].mesh);
+    }
+
     for(var i = 0; i < this.enemies.length; i++) {
       this.scene.add(this.enemies[i].mesh);
     }
@@ -159,6 +164,14 @@ var Game = Class.extend({
     for(var i = this.bullets.length-1; i >= 0; i--) {
       var bullet = this.bullets[i];
       var remove = bullet.update(delta);
+      var intersections = bullet.ray.intersectObjects(this.enemyMeshes);
+
+      if (intersections.length > 0) {
+        var distance = intersections[ 0 ].distance;
+        if ( distance > 0 && distance < 10 ) {
+          remove = true;
+        }
+      }
       if(remove) {
         this.scene.remove(bullet.mesh);
         this.bullets.splice(i, 1);
