@@ -4,6 +4,8 @@ var Game = Class.extend({
     this.bullets = [];
     this.mouse = {};
     this.time = Date.now();
+    this.gunshot = new Audio();
+    this.gunshot.src = 'sound/gunshot.wav';
     document.addEventListener('mousedown', this.shoot.bind(this), false);
   },
 
@@ -65,7 +67,11 @@ var Game = Class.extend({
 
   loadEnemies: function() {
     this.enemies = [
-      new Enemy(30, 10, 20)
+      new Enemy(30, 10, 20),
+      new Enemy(-40, 10, -40),
+      new Enemy(-80, 10, 40),
+      new Enemy(0, 10, 90),
+      new Enemy(120, 10, 200)
     ];
 
     for(var i = 0; i < this.enemies.length; i++) {
@@ -86,10 +92,15 @@ var Game = Class.extend({
 
     for ( var i = 0, l = this.geometry.faces.length; i < l; i ++ ) {
       var face = this.geometry.faces[ i ];
-      face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+      /* face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
       face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
       face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-      face.vertexColors[ 3 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+      face.vertexColors[ 3 ] = new THREE.Color().setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 ); */
+
+      face.vertexColors[0] = new THREE.Color(0x00ff00);
+      face.vertexColors[1] = new THREE.Color(0x00ff00);
+      face.vertexColors[2] = new THREE.Color(0x33aa33);
+      face.vertexColors[3] = new THREE.Color(0x33aa33);
     }
 
     this.material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
@@ -137,6 +148,7 @@ var Game = Class.extend({
       var b = new Bullet();
       this.bullets.push(b);
       this.scene.add(b.mesh);
+      this.gunshot.play();
     }
   },
 
